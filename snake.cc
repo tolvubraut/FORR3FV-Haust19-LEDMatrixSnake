@@ -90,6 +90,8 @@ static void DrawGame(Canvas *canvas) {
       int posY = center_y + snakeTrail[i].y * segment_size;
       // Draw each segment
       DrawSegment(canvas, segment_size, posX, posY);
+
+      // TODO: Move only according to direction, then make other segments (index 1 and above) follow previous segment
       snakeTrail[i].move(direction, 1);
     }
 
