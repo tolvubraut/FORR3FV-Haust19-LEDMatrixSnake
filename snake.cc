@@ -48,6 +48,14 @@ struct Segment {
   }
 };
 
+static void DrawSegment(Canvas *canvas, int segment_size, int posX, int posY) {
+  for (unsigned int j = 0; j < segment_size; j++) {
+    for (unsigned int k = 0; k < segment_size; k++) {
+      canvas->SetPixel(posX + j, posY + k, WHITE);
+    }
+  }
+}
+
 static void DrawGame(Canvas *canvas) {
   /*
    * Let's create a simple animation. We use the canvas to draw
@@ -70,14 +78,10 @@ static void DrawGame(Canvas *canvas) {
   }
 
   bool snakeIsDead = false;
-  int turned = maxSnakeWidth;
 
   while (!snakeIsDead) {
     if (interrupt_received)
       return;
-    
-    int moveX = 0;
-    int moveY = 0;
 
     // For every snake segment, move it according to move values
     for (unsigned int i = 0; i < maxSnakeWidth; i++) {
@@ -85,11 +89,7 @@ static void DrawGame(Canvas *canvas) {
       int posX = center_x + snakeTrail[i].x * segment_size;
       int posY = center_y + snakeTrail[i].y * segment_size;
       // Draw each segment
-      for (unsigned int j = 0; j < segment_size; j++) {
-        for (unsigned int k = 0; k < segment_size; k++) {
-          canvas->SetPixel(posX + j, posY + k, WHITE);
-        }
-      }
+      DrawSegment(canvas, segment_size, posX, posY);
       snakeTrail[i].move(direction, 1);
     }
 
