@@ -86,14 +86,13 @@ static void GameLoop(Canvas *canvas) {
     int center_x = canvas->width() / 2;
     int center_y = canvas->height() / 2;
     unsigned int segment_size = 2;
-    unsigned int snakeWidth = 1;
-    unsigned int maxSnakeWidth = 5;
+    unsigned int maxSnakeWidth = 8;
 
     int direction = RIGHT;
 
     // Initialize snake
     Segment snakeTrail[maxSnakeWidth];
-    for (int i = 0; i < maxSnakeWidth; i++) {
+    for (unsigned int i = 0; i < maxSnakeWidth; i++) {
         snakeTrail[i].move(LEFT, i);
     }
 
@@ -140,13 +139,13 @@ static void GameLoop(Canvas *canvas) {
         // Check for collisions
         // If head goes off screen, snake dies
         if (center_x + snakeTrail[0].x * segment_size >= canvas->width() - segment_size || 
-            center_x + snakeTrail[0].x * segment_size <= segment_size ||
+            center_x + snakeTrail[0].x * segment_size <= 0 ||
             center_y + snakeTrail[0].y * segment_size >= canvas->height() - segment_size ||
-            center_y + snakeTrail[0].y * segment_size <= segment_size) {
+            center_y + snakeTrail[0].y * segment_size <= 0) {
             snakeIsDead = true;
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));  // 0.5s delay
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));  // 0.5s delay
         canvas->Clear();
     }
 }
