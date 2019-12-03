@@ -1,31 +1,40 @@
+/* Layout */
 .container {
     max-width: 70em;
     margin: 0 auto;
-    padding: 0.5em;
+    padding: 1em;
 }
-h1 {
-    margin: 0.25em 0;
-    font-size: 2.25rem;
-}
-h2 {
-    margin: 0.25em 0;
-    font-size: 1.75em;
-}
-h3 {
-    margin: 0.25em 0;
-    font-size: 1.5em;
-}
-p {
-    font-size: 1rem;
+.main-header, .main-footer {
+    background-color: #407bb3;
+    color: white;
+    padding: 1em;
+    box-shadow: 0px 0px 2px 0px #000000cc;
 }
 section {
-    margin-bottom: 1em;
+    margin: 1em 0;
 }
 footer small {
     display: block;
     text-align: right;
     font-size: 1em;
 }
+
+/* Font sizes */
+h1 {
+    font-size: 2.25rem;
+}
+h2 {
+    margin: 0.5em 0;
+    font-size: 1.75em;
+}
+h3 {
+    margin: 0.5em 0;
+    font-size: 1.5em;
+}
+p {
+    font-size: 1rem;
+}
+
 /* Responsive YouTube embed */
 .youtube-wrapper {
     position: relative;
