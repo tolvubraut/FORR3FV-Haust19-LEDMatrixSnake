@@ -62,14 +62,15 @@ static void DrawSegment(Canvas *canvas, unsigned int segment_size, int posX, int
     }
 }
 
+// Get user input from keyboard
 static std::string getInput() {
     std::string input;
     std::getline(std::cin, input);
     return input;
 }
 
+// Set snake direction, do not allow going in the opposite direction
 static void setDirection(int &direction, int newDirection) {
-    // Do not allow opposite directions
     if ((newDirection == UP && direction == DOWN) ||
         (newDirection == DOWN && direction == UP) ||
         (newDirection == LEFT && direction == RIGHT) ||
@@ -145,7 +146,7 @@ static void GameLoop(Canvas *canvas) {
             snakeIsDead = true;
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));  // 0.5s delay
         canvas->Clear();
     }
 }
