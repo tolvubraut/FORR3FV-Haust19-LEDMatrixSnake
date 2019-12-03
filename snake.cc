@@ -46,9 +46,12 @@ struct Segment {
             this->x += amount;
         }
     }
+    bool collidesWith(Segment other) {
+        return this->x == other.x && this->y == other.y;
+    }
 };
 
-static void DrawSegment(Canvas *canvas, int segment_size, int posX, int posY) {
+static void DrawSegment(Canvas *canvas, unsigned int segment_size, int posX, int posY) {
     for (unsigned int j = 0; j < segment_size; j++) {
         for (unsigned int k = 0; k < segment_size; k++) {
             canvas->SetPixel(posX + j, posY + k, WHITE);
@@ -56,11 +59,7 @@ static void DrawSegment(Canvas *canvas, int segment_size, int posX, int posY) {
     }
 }
 
-static void DrawGame(Canvas *canvas) {
-    /*
-     * Let's create a simple animation. We use the canvas to draw
-     * pixels. We wait between each step to have a slower animation.
-     */
+static void GameLoop(Canvas *canvas) {
     canvas->Fill(0, 0, 0);
 
     int center_x = canvas->width() / 2;
@@ -83,16 +82,35 @@ static void DrawGame(Canvas *canvas) {
         if (interrupt_received)
             return;
 
-        // For every snake segment, move it according to move values
+        // Move snake segments according to head position
+        for (unsigned int i = maxSnakeWidth-1; i >= 1; i--) {
+            snakeTrail[i].x = snakeTrail[i-1].x;
+            snakeTrail[i].y = snakeTrail[i-1].y;
+        }
+        // Move head in desired direction
+        snakeTrail[0].move(direction, 1);
+
+        // Draw every segment
         for (unsigned int i = 0; i < maxSnakeWidth; i++) {
+            // Snake dies if head collides with any of its segments
+            if (i > 0 && snakeTrail[0].collidesWith(snakeTrail[i])) {
+                snakeIsDead = true;
+                break;
+            }
             // Calculate pixel positions (origin is bottom left) for each segment
             int posX = center_x + snakeTrail[i].x * segment_size;
             int posY = center_y + snakeTrail[i].y * segment_size;
             // Draw each segment
             DrawSegment(canvas, segment_size, posX, posY);
+        }
 
-            // TODO: Move only according to direction, then make other segments (index 1 and above) follow previous segment
-            snakeTrail[i].move(direction, 1);
+        // Check for collisions
+        // If head goes off screen, snake dies
+        if (center_x + snakeTrail[0].x * segment_size >= canvas->width() - segment_size || 
+            center_x + snakeTrail[0].x * segment_size <= segment_size ||
+            center_y + snakeTrail[0].y * segment_size >= canvas->height() - segment_size ||
+            center_y + snakeTrail[0].y * segment_size <= segment_size) {
+            snakeIsDead = true;
         }
 
         usleep(1000 * 1000);
@@ -117,7 +135,7 @@ int main(int argc, char *argv[]) {
     signal(SIGTERM, InterruptHandler);
     signal(SIGINT, InterruptHandler);
 
-    DrawGame(canvas);    // Using the canvas.
+    GameLoop(canvas);    // Using the canvas.
 
     // Animation finished. Shut down the RGB matrix.
     canvas->Clear();
