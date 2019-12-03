@@ -18,19 +18,78 @@
         <div class="container">
             <section id="verkefnalysing">
                 <h2>Verkefnalýsing</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, labore. Tempore numquam nam eligendi adipisci, nesciunt reprehenderit nostrum saepe aliquid eum deserunt expedita fugit odio aperiam et? Ad, quidem aliquid!</p>
+                <p>Í verkefni 5 vann ég áfram með <a href="https://learn.adafruit.com/matrix-led-sand" title="Leiðbeiningar Adafruit">LED Matrix Sand Toy</a> grunninn sem ég gerði í verkefni 3.
+                    Ég ákvað ekki fyrirfram hvað það skyldi vera en á endanum varð það fyrir valinu að gera eins konar Snake-leik
+                    sem væri þá hægt að stýra með því að halla skjánum.</p>
             </section>
             <section id="skyrsla">
                 <h2>Skýrsla</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, beatae sit. Expedita, quasi, reprehenderit laboriosam, reiciendis magni soluta qui ratione possimus sapiente placeat illo pariatur nam voluptates. Quae, unde ducimus.</p>
-            </section>
-            <section id="myndbond">
-                <h2>Myndbönd</h2>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veniam dolor deleniti dignissimos optio nisi veritatis, ducimus maxime quo numquam, eligendi ratione voluptatibus asperiores omnis soluta excepturi eius expedita quod voluptatem.</p>
-            </section>
-            <section id="utkoma">
-                <h2>Útkoma og næstu skref</h2>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis praesentium fuga corrupti accusantium cumque. Sunt ipsa, alias ex, iure, iste dolorem consequatur temporibus nulla molestias in saepe numquam accusantium! Eligendi.</p>
+                <h3>Sand Toy</h3>
+                <p>
+                    Tíminn sem fór í að klára verkefni 3 fór langt fram úr öllum væntingum.
+                    Lesa má um hvernig gekk með það í byrjun í <a href="https://github.com/reyniraron/vf-verkefni-3/blob/master/README.md" target="_blank" title="Skýrsla fyrir verkefni 3">skýrslunni sem ég vann með Hrólfi</a>, félaga mínum í verkefninu.
+                </p>
+                <p>
+                    Að því sem þar kemur fram loknu tók ég við verkefninu og kláraði að lóða þá víra og aukahluti við sem þurfti að lóða við.
+                    Auk þess festi ég LED Matrix skjáinn, Raspberry Pi, bonnet, hallamæli, rafhlöðu og fleira við þrívíddarprentaðar höldur og bakplötu sem voru búnar til fyrir verkefnið.
+                    Þetta tók allt sinn tíma, meðal annars vegna þess hve mikið þurfti að lóða. Það kom fyrir að ég lóðaði eitthvað rangt í kæruleysi og þyrfti þá að eyða löngum tíma í að laga það.
+                </p>
+                <p>
+                    Þegar allur vélbúnaðurinn var loksins tilbúinn hlóð ég hugbúnaðinum frá Adafruit inn á Raspberry Pi-ið og reyndi að nota hann.
+                    Í fyrstu kom engin mynd á LED Matrix skjáinn en eftir ábendingu frá Tomaszi prófaði ég að ýta á Raspberry Pi-ið þar sem það tengdist bonnetinu í gegn um GPIO headera og þá kom mynd á skjáinn.
+                    Sú mynd var hins vegar ekki eins og hún átti að sér að vera og hélst ekki inni nema ég héldi við pinnana. Þetta benti til þess að vandamál væri í lóðun GPIO header pinnanna við Raspberry Pi-ið, en smátölvurnar sem við fengum komu ekki með headerum á.
+                </p>
+                <p>
+                    Með því að nota Raspberry Pi 3 Model B (með tilbúnum headerum) í stað Raspberry Pi Zero W gat ég fengið skjáinn til að sýna þá mynd sem hann átti að sýna og virkaði þá í raun allt. Hér fyrir neðan má sjá myndband af þessari virkni.
+                </p>
+                <div class="youtube-wrapper">
+                    <iframe src="https://www.youtube.com/embed/vSLQF6uxYaI?mute=1" allowfullscreen></iframe>
+                </div>
+                <h3>Framhald</h3>
+                <p>
+                    Þar sem ég gat ekki notað Raspberry Pi Zero W varð ég að halda áfram að nota Raspberry Pi 3 í verkefnið. Þegar ég byrjaði á því voru aðeins þrjár kennslustundir eftir í áfanganum og því ljóst að ég hefði ekki mikinn tíma til að gera neitt stórt verkefni.
+                    Það fyrsta sem ég gerði var að skoða forrit sem fylgdu með <a href="https://github.com/hzeller/rpi-rgb-led-matrix" target="_blank" title="hzeller/rpi-rgb-led-matrix á GitHub"><code>rpi-rgb-led-matrix</code></a> safninu sem Adafruit notaði til að búa sinn kóða fyrir Sand Toy til.
+                    Ég notaði meðfylgjandi <a href="https://github.com/hzeller/rpi-rgb-led-matrix/blob/master/utils/video-viewer.cc" target="_blank" title="video-viewer.cc á GitHub"><code>video-viewer</code></a> forritið og tókst að láta LED Matrix skjáinn spila myndband (í allri sinni 64*64 pixla dýrð).
+                </p>
+                <div class="youtube-wrapper">
+                    <iframe src="https://www.youtube.com/embed/joy_XZ2moRs?mute=1" allowfullscreen></iframe>
+                </div>
+                <p>
+                    Eftir að ég fékk þetta til að virka hófst ég handa við að skrifa einfaldan Snake-leik. Ég byggði kóðann að mestu leyti á <a href="https://github.com/hzeller/rpi-rgb-led-matrix/blob/master/examples-api-use/minimal-example.cc" target="_blank" title="minimal-example.cc á GitHub"><code>minimal-example</code></a> forritinu hvað varðar að teikna á skjáinn.
+                    Ég notaði þann kóða sem grunn en leikurinn sjálfur var mín smíð frá grunni.
+                </p>
+                <p>
+                    Eins og flestir vita gengur Snake út á að stýra snáki um borð og borða epli til að stækka. Þegar snákurinn borðar epli stækkar líkami hans. Ef snákurinn fer út fyrir borðið eða ef höfuð hans snertir einhvern hluta líkama hans deyr hann.
+                    Þar sem ég hafði aðeins tvær kennslustundir (4 klst. samtals) til að skrifa leikinn (í C++) náði ég aðeins að klára algjöra grunnvirkni.
+                </p>
+                <p>
+                    Hægt er að hreyfa snákinn í fjórar áttir; upp, niður, til vinstri og til hægri. Ekki er hægt að velja öfuga átt við það sem snákurinn er að fara. Snákurinn deyr ef hann snertir „vegg“ (ef höfuð hans fer út fyrir einhverja hlið skjásins) eða ef hann snertir einhvern hluta líkama síns.
+                    Engin epli eru í borðinu eins og er og snákurinn stækkar aldrei. Því er í raun ekki til mikils að vinna. Þetta sýnir þó fram á það að hægt sé að hreyfa snákinn og að LED Matrix skjárinn henti vel í svona lagaðan leik.
+                </p>
+                <div class="youtube-wrapper">
+                    <iframe src="https://www.youtube.com/embed/qQhpJimvPiE?mute=1" allowfullscreen></iframe>
+                </div>
+                <h3>Útkoma</h3>
+                <p>
+                    Ætlunin var að leyfa notandanum að halla skjánum til að stýra snáknum eins og hann vildi. Hins vegar voru nokkrar fyrirstöður fyrir því.
+                </p>
+                <p>
+                    Í fyrsta lagi hætti hallamælirinn minn að virka milli þess tíma þegar ég fékk Sand Toy fyrst til að virka þar til ég ætlaði að prófa það aftur í næsta tíma.
+                    Þessu hefði verið hægt að komast fram hjá með því að nota Sand Toy einhvers annars. Það hefði þó í raun ekki leyst vandann út af næstu tæknilegu fyrirstöðu.
+                </p>
+                <p>
+                    Sand Toy kóði Adafruit talar beint við hallamælinn án þess að nota neitt safn. Það gerir það að verkum að það er engin auðveld leið fyrir mig til að sækja gildi frá honum inn í Snake forritið mitt til að ákvarða í hvaða átt notandi vill færa snákinn.
+                    Ein leið til að ná þessum gildum væri að lúslesa Sand Toy kóðann frá Adafruit og skoða nákvæmlega hvaða hlutar tengjast hallamælinum. Það er hins vegar hægara sagt en gert þar sem nær allur kóðinn er í einni skrá og breytuheitin eru frekar stutt og ólæsileg.
+                </p>
+                <p>
+                    Hinn valmöguleikinn væri svo að finna tilbúið safn til að vinna með þessa týpu hallamælis á Raspberry Pi á netinu. Ég reyndi að leita að slíku safni en það kom ekki margt upp úr krafsinu.
+                    Helst fann ég söfn fyrir Python, sem gagnast mér lítið þar sem Snake-leikurinn minn er skrifaður í C++ og ég ekki í neinu sérstöku stuði til að vera að koma á einhverjum flóknum samskiptum milli Python þýðandans og Snake forritsins.
+                </p>
+                <p>
+                    Þetta gerði það að verkum að til bráðabirgða útfærði ég stýringuna þannig að forritið hlustar eftir inntaki frá notanda í console (<i>asynchronous</i> til að það stoppi ekki allt forritið á meðan það bíður).
+                    Þannig get ég sent skipanir í gegn um SSH um að fara upp, niður, til vinstri eða til hægri. Til þess nota ég örvatakkana og staðfesti valið með <kbd>&crarr;</kbd> (<kbd>return</kbd>) eins og má sjá í myndbandinu hér að ofan.
+                    Þetta er augljóslega ekki ákjósanlegt en þetta dugir þó að mínu mati til að sýna fram á að hugmyndin virki.
+                </p>
             </section>
         </div>
     </main>
