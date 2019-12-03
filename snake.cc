@@ -11,6 +11,9 @@
 #include <math.h>
 #include <stdio.h>
 #include <signal.h>
+#include <iostream>
+#include <chrono>
+#include <future>
 
 #define UP    +2
 #define DOWN  -2
@@ -59,6 +62,23 @@ static void DrawSegment(Canvas *canvas, unsigned int segment_size, int posX, int
     }
 }
 
+static std::string getInput() {
+    std::string input;
+    std::getline(std::cin, input);
+    return input;
+}
+
+static void setDirection(int &direction, int newDirection) {
+    // Do not allow opposite directions
+    if ((newDirection == UP && direction == DOWN) ||
+        (newDirection == DOWN && direction == UP) ||
+        (newDirection == LEFT && direction == RIGHT) ||
+        (newDirection == RIGHT && direction == LEFT)) {
+        return;
+    }
+    direction = newDirection;
+}
+
 static void GameLoop(Canvas *canvas) {
     canvas->Fill(0, 0, 0);
 
@@ -70,17 +90,29 @@ static void GameLoop(Canvas *canvas) {
 
     int direction = RIGHT;
 
+    // Initialize snake
     Segment snakeTrail[maxSnakeWidth];
-
     for (int i = 0; i < maxSnakeWidth; i++) {
         snakeTrail[i].move(LEFT, i);
     }
 
     bool snakeIsDead = false;
 
+    auto future = std::async(std::launch::async, getInput);
+
     while (!snakeIsDead) {
         if (interrupt_received)
             return;
+
+        // Get user input asynchronously (non-blocking)
+        if (future.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
+            auto input = future.get();
+            if (input == "w") setDirection(direction, UP);
+            else if (input == "a") setDirection(direction, LEFT);
+            else if (input == "s") setDirection(direction, DOWN);
+            else if (input == "d") setDirection(direction, RIGHT);
+            future = std::async(std::launch::async, getInput);
+        }
 
         // Move snake segments according to head position
         for (unsigned int i = maxSnakeWidth-1; i >= 1; i--) {
@@ -113,7 +145,7 @@ static void GameLoop(Canvas *canvas) {
             snakeIsDead = true;
         }
 
-        usleep(1000 * 1000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         canvas->Clear();
     }
 }
@@ -124,7 +156,7 @@ int main(int argc, char *argv[]) {
     defaults.rows = 32;
     defaults.chain_length = 1;
     defaults.parallel = 1;
-    defaults.show_refresh_rate = true;
+    defaults.show_refresh_rate = false;
     Canvas *canvas = rgb_matrix::CreateMatrixFromFlags(&argc, &argv, &defaults);
     if (canvas == NULL)
         return 1;
