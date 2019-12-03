@@ -1,0 +1,15 @@
+.container {
+    max-width: 80em;
+    margin: 0 auto;
+    padding: 0.5em;
+}
+h1 {
+    margin: 0.5em 0;
+}
+section {
+    margin-bottom: 1em;
+}
+footer small {
+    display: block;
+    text-align: right;
+}
