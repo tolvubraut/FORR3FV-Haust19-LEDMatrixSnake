@@ -52,3 +52,15 @@ p {
     height: 100%;
     border: 0;
 }
+
+/* Dark mode theme */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #232323;
+        color: #ddd;
+    }
+    .main-header, .main-footer {
+        background-color: #2a5680;
+        color: #ddd;
+    }
+}
